@@ -1,0 +1,28 @@
+const {Tick} = require('../src');
+
+_ticker = new Tick({
+    onTick(time) {
+        console.log(time);
+    }
+});
+
+_ticker.start(2000);
+
+setTimeout(() => {
+    _ticker.pause();
+}, 500);
+
+
+setTimeout(() => {
+    _ticker.resume();
+}, 1000);
+
+
+setTimeout(() => {
+    _ticker.pause();
+},1500);
+
+
+setTimeout(() => {
+    _ticker.resume();
+}, 2000);

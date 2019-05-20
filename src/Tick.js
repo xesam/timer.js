@@ -5,53 +5,57 @@ const STATE = {
 };
 
 class Tick {
-    constructor() {
+    constructor(options = {}) {
         this._flag = -1;
-        this.time = {
+        this._time = {
             timeout: 0,
             fly: 0
         };
+        this._options = options;
     }
 
     getTime() {
-        return this.time;
+        return this._time;
+    }
+
+    getElapsed() {
+        return Date.now();
     }
 
     start(timeout = 0) {
-        this.time = {
+        this._time = {
             timeout: timeout,
             fly: 0
         };
-        this.runningTime = Date.now();
-        this.tick(this.time.timeout);
+        this._runTime = Date.now();
+        this.tick(this._time.timeout);
     }
 
     pause() {
         clearTimeout(this._flag);
-        this.pauseTime = Date.now();
-        this.time.fly += this.pauseTime - this.runningTime;
+        this._pauseTime = this.getElapsed();
+        this._time.fly += this._pauseTime - this._runTime;
     }
 
     resume() {
-        this.runningTime = Date.now();
-        this.tick(this.time.timeout - this.time.fly);
+        this._runTime = this.getElapsed();
+        this.tick(this._time.timeout - this._time.fly);
     }
 
     stop() {
         clearTimeout(this._flag);
-        this.time.fly += Date.now() - this.runningTime;
+        this._time.fly += this.getElapsed() - this._runTime;
     }
 
     tick(timeout) {
         this._flag = setTimeout(() => {
-            this.time.fly = Date.now() - this.runningTime;
-            this._onTickHandler && this._onTickHandler(this.time);
+            this._time.fly += this.getElapsed() - this._runTime;
+            this.onTick(this._time);
         }, timeout);
     }
 
-    onTick(cbk) {
-        this._onTickHandler = cbk;
-        return this;
+    onTick(time) {
+        this._options.onTick && this._options.onTick(time);
     }
 }
 
