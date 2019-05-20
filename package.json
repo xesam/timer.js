@@ -1,0 +1,25 @@
+{
+  "name": "js-timer",
+  "version": "0.0.1",
+  "description": "simple javascript timer",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xesam/js-timer.git"
+  },
+  "keywords": [
+    "timer"
+  ],
+  "author": "xesam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xesam/js-timer/issues"
+  },
+  "homepage": "https://github.com/xesam/js-timer#readme"
+}
