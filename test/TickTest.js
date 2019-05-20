@@ -1,7 +1,7 @@
 const {Tick} = require('../src');
 
 _ticker = new Tick({
-    onTick(time) {
+    onTimeout(time) {
         console.log(time);
     }
 });

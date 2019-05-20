@@ -72,13 +72,13 @@ class Tick {
         this._flag = setTimeout(() => {
             this._state = STATE.STOPPED;
             this._time.fly += this.getElapsed() - this._runTime;
-            this.onTick(this._time);
+            this.onTimeout(this._time);
         }, timeout);
         return true;
     }
 
-    onTick(time) {
-        this._options.onTick && this._options.onTick(time);
+    onTimeout(time) {
+        this._options.onTimeout && this._options.onTimeout(time);
     }
 }
 
