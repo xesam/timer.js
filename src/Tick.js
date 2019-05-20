@@ -70,6 +70,7 @@ class Tick {
 
     tick(timeout) {
         this._flag = setTimeout(() => {
+            this._state = STATE.STOPPED;
             this._time.fly += this.getElapsed() - this._runTime;
             this.onTick(this._time);
         }, timeout);
