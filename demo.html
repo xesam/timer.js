@@ -46,7 +46,7 @@
         let timer = new Timer2({clock: new Clock()})
             .onStarted((t, fly) => {
                 console.log('onStarted', fly);
-            }).onTick((t, data) => {
+            }).onTimeout((t, data) => {
                 console.log('onTick', data);
                 time.innerText += `${data.realFly}/${data.expectFly},`;
             }).onPaused((t, fly) => {
@@ -68,7 +68,7 @@
         let timer = new Timer2({interval: 5000, clock: window.clock})
             .onStarted((t, fly) => {
                 console.log('onStarted', fly);
-            }).onTick((t, data) => {
+            }).onTimeout((t, data) => {
                 console.log('onTick', data);
                 time.innerText += `${data.realFly}/${data.expectFly},`;
             }).onPaused((t, fly) => {

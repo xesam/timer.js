@@ -10,7 +10,7 @@ class CountdownTimer {
 
     start() {
         this._left = this._total;
-        this._ticker.onTick(time => {
+        this._ticker.onTimeout(time => {
             let realLeft = this._left - time.fly;
             if (realLeft > 0) {
                 this._left = realLeft;
@@ -23,7 +23,7 @@ class CountdownTimer {
                 this._left = 0;
             }
 
-            this._options.onTick && this._options.onTick(this, this._left);
+            this._options.onTimeout && this._options.onTimeout(this, this._left);
             if (this._left <= 0) {
                 this._options.onFinish && this._options.onFinish(this, this._left);
             }

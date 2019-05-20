@@ -1,13 +1,13 @@
-const {Timer} = require('../src');
+const {CounterTimer} = require('../src');
 
-new Timer(1000, {
+new CounterTimer(1000, {
     onStart(timer) {
         console.log('onStart');
     },
     onStop(timer) {
         console.log('onStop');
     },
-    onTick(timer, fly) {
-        console.log(fly);
+    onTick(timer, count) {
+        console.log(count);
     }
 }).start();
