@@ -1,6 +1,6 @@
 {
   "name": "chelaile-timer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "simple javascript timer",
   "main": "index.js",
   "directories": {
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/xesam/js-timer/issues"
   },
-  "homepage": "https://github.com/xesam/js-timer#readme"
+  "homepage": "https://github.com/xesam/js-timer#readme",
+  "devDependencies": {
+    "js-mock-clock": "0.0.3"
+  }
 }
