@@ -1,18 +1,20 @@
 const BaseTimer = require('./BaseTimer');
 
 class CounterTimer extends BaseTimer {
-    constructor(interval, options = {}) {
-        super(options);
+    constructor(interval) {
+        super();
         this.setInterval(interval);
-        this._counter = 0;
+        this._count = 0;
     }
 
-    _onTimeout(time) {
-        this._counter++;
+    onTick() {
+        console.log('tick tick')
+        this._count++;
+        console.log(this._count)
     }
 
-    getTickInfo() {
-        return this._counter;
+    getCount() {
+        return this._count;
     }
 }
 

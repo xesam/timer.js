@@ -4,36 +4,41 @@ const STATE = {
     STOPPED: 2,
 };
 
-class Tick {
-    constructor(options = {}) {
-        this._state = STATE.STOPPED;
-        this._flag = -1;
-        this._time = {
-            timeout: 0,
-            fly: 0
-        };
-        this._options = options;
-    }
+const NOP = () => {
+    console.log('tick timeout');
+}
 
-    getTime() {
-        return this._time;
+class Tick {
+    constructor(onTimeout = NOP) {
+        this._state = STATE.STOPPED;
+        this._timerFlag = -1;
+        this._flyMills = 0;
+        this._timeoutMills = 0;
+        this._onTimeout = onTimeout;
     }
 
     getElapsed() {
         return Date.now();
     }
 
+    tick(timeout) {
+        this._timerFlag = setTimeout(() => {
+            this._state = STATE.STOPPED;
+            this._flyMills += this.getElapsed() - this._runTime;
+            this._onTimeout(this);
+        }, timeout);
+        return true;
+    }
+
     start(timeout = 0) {
         if (this._state !== STATE.STOPPED) {
             return false;
         }
-        this._time = {
-            timeout: timeout,
-            fly: 0
-        };
+        this._timeoutMills = timeout;
+        this._flyMills = 0;
+        this._runTime = this.getElapsed();
         this._state = STATE.RUNNING;
-        this._runTime = Date.now();
-        this.tick(this._time.timeout);
+        this.tick(this._timeoutMills);
         return true;
     }
 
@@ -42,9 +47,9 @@ class Tick {
             return false;
         }
         this._state = STATE.PAUSED;
-        clearTimeout(this._flag);
+        clearTimeout(this._timerFlag);
         this._pauseTime = this.getElapsed();
-        this._time.fly += this._pauseTime - this._runTime;
+        this._flyMills += this._pauseTime - this._runTime;
         return true;
     }
 
@@ -52,9 +57,9 @@ class Tick {
         if (this._state !== STATE.PAUSED) {
             return false;
         }
-        this._state = STATE.RUNNING;
         this._runTime = this.getElapsed();
-        this.tick(this._time.timeout - this._time.fly);
+        this._state = STATE.RUNNING;
+        this.tick(this._timeoutMills - this._flyMills);
         return true;
     }
 
@@ -63,24 +68,12 @@ class Tick {
             return false;
         }
         this._state = STATE.STOPPED;
-        clearTimeout(this._flag);
-        this._time.fly += this.getElapsed() - this._runTime;
+        clearTimeout(this._timerFlag);
+        this._flyMills += this.getElapsed() - this._runTime;
         return true;
-    }
-
-    tick(timeout) {
-        this._flag = setTimeout(() => {
-            this._state = STATE.STOPPED;
-            this._time.fly += this.getElapsed() - this._runTime;
-            this.onTimeout(this._time);
-        }, timeout);
-        return true;
-    }
-
-    onTimeout(time) {
-        this._options.onTimeout && this._options.onTimeout(time);
     }
 }
 
 exports.STATE = STATE;
 exports.Tick = Tick;
+
