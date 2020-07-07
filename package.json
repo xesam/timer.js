@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/xesam/js-timer#readme",
   "devDependencies": {
-    "js-mock-clock": "0.0.3",
     "jest": "26.1.0"
   }
 }

@@ -1,5 +1,5 @@
 const BaseTimer = require('../src/Timer');
-jest.useFakeTimers();
+jest.useFakeTimers('modern');
 
 
 describe('test BaseTimer callback', () => {
@@ -7,7 +7,7 @@ describe('test BaseTimer callback', () => {
 
     beforeEach(() => {
         timer = new BaseTimer();
-        timer.setInterval(1_000);
+        timer.setInterval(1000);
     });
 
     it('init -> start', () => {
@@ -127,7 +127,7 @@ describe('test BaseTimer', () => {
 
     beforeEach(() => {
         timer = new BaseTimer();
-        timer.setInterval(1_000);
+        timer.setInterval(1000);
     });
 
     it('start', () => {

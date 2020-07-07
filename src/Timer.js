@@ -3,13 +3,13 @@ const {Tick} = require('./Tick');
 class Timer {
     constructor() {
         this.setInterval(0);
-        this._ticker = new Tick((tick) => {
-            this._onTick();
+        this._ticker = new Tick(flyMills => {
+            this._onTick(flyMills);
         });
     }
 
     _onTick() {
-        this.onTick && this.onTick(this);
+        this.onTick && this.onTick();
         this._ticker.start(this._interval);
     }
 
@@ -19,25 +19,25 @@ class Timer {
 
     start() {
         if (this._ticker.start(this._interval)) {
-            this.onStart && this.onStart(this);
+            this.onStart && this.onStart();
         }
     }
 
     pause() {
         if (this._ticker.pause()) {
-            this.onPause && this.onPause(this);
+            this.onPause && this.onPause();
         }
     }
 
     resume() {
         if (this._ticker.resume()) {
-            this.onResume && this.onResume(this);
+            this.onResume && this.onResume();
         }
     }
 
     stop() {
         if (this._ticker.stop()) {
-            this.onStop && this.onStop(this);
+            this.onStop && this.onStop();
         }
     }
 }
