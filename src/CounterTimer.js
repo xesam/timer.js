@@ -1,6 +1,6 @@
-const BaseTimer = require('./BaseTimer');
+const Timer = require('./Timer');
 
-class CounterTimer extends BaseTimer {
+class CounterTimer extends Timer {
     constructor(interval) {
         super();
         this.setInterval(interval);

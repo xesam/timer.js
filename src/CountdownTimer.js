@@ -2,13 +2,11 @@ const {Tick} = require('./Tick');
 
 class CountdownTimer {
     constructor(total, interval, options = {}) {
-        this._options = options;
         this._total = total;
         this._interval = interval;
-        this._ticker = new Tick({
-            onTimeout: (time) => {
-                this.onTick(time);
-            }
+        this._options = options;
+        this._ticker = new Tick((time) => {
+            this.onTick(time);
         });
     }
 

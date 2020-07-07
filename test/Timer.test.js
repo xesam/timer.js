@@ -1,4 +1,4 @@
-const BaseTimer = require('../src/BaseTimer');
+const BaseTimer = require('../src/Timer');
 jest.useFakeTimers();
 
 
