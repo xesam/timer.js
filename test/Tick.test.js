@@ -8,7 +8,7 @@ describe('test Tick', () => {
     it('normal start', () => {
         const mockCallback = jest.fn();
         const tick = new Tick(mockCallback);
-        expect(mockCallback).not.toBeCalled();
+
         tick.start(2000);
         expect(mockCallback).not.toBeCalled();
 
@@ -16,7 +16,7 @@ describe('test Tick', () => {
         expect(mockCallback).not.toBeCalled();
 
         jest.advanceTimersByTime(500);
-        expect(mockCallback).toBeCalled();
+
         expect(mockCallback.mock.calls.length).toBe(1);
         expect(mockCallback.mock.calls[0][0]).toBe(2000);
 
