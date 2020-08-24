@@ -1,43 +1,49 @@
 const {Tick} = require('./Tick');
 
 class Timer {
-    constructor() {
+    constructor(eventHandler = () => {
+    }) {
+        this.eventHandler = eventHandler;
         this.setInterval(0);
         this._ticker = new Tick(flyMills => {
-            this._onTick(flyMills);
+            this.onTick(flyMills);
         });
-    }
-
-    _onTick() {
-        this.onTick && this.onTick();
-        this._ticker.start(this._interval);
     }
 
     setInterval(interval) {
         this._interval = interval;
     }
 
+    onEvent(event) {
+        this.eventHandler(event);
+    }
+
+    onTick() {
+        this.onEvent('tick');
+        this._ticker.start(this._interval);
+    }
+
     start() {
         if (this._ticker.start(this._interval)) {
-            this.onStart && this.onStart();
+            this.onEvent('start');
         }
     }
 
     pause() {
         if (this._ticker.pause()) {
-            this.onPause && this.onPause();
+            this.onEvent('pause');
         }
     }
 
     resume() {
         if (this._ticker.resume()) {
-            this.onResume && this.onResume();
+            this.onEvent('resume');
         }
     }
 
     stop() {
         if (this._ticker.stop()) {
-            this.onStop && this.onStop();
+            this.onEvent('stop');
         }
     }
 }

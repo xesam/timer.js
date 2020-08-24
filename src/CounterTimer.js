@@ -1,16 +1,17 @@
 const Timer = require('./Timer');
 
 class CounterTimer extends Timer {
-    constructor(interval) {
-        super();
+    constructor(interval, eventHandler) {
+        super(eventHandler);
         this.setInterval(interval);
         this._count = 0;
     }
 
-    onTick() {
-        console.log('tick tick')
-        this._count++;
-        console.log(this._count)
+    onEvent(event) {
+        super.onEvent(event);
+        if (event === 'tick') {
+            this._count++;
+        }
     }
 
     getCount() {
