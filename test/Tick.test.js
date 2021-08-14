@@ -1,10 +1,10 @@
-const {Tick} = require('../index');
+const {Ticker} = require('../index');
 jest.useFakeTimers('modern');
 
 describe('test Tick', () => {
     it('normal start', () => {
         const mockCallback = jest.fn();
-        const tick = new Tick(mockCallback);
+        const tick = new Ticker(mockCallback);
 
         tick.start(2000);
         expect(mockCallback).not.toBeCalled();
@@ -26,7 +26,7 @@ describe('test Tick', () => {
 
     it('start and stop', () => {
         const mockCallback = jest.fn();
-        const tick = new Tick(mockCallback);
+        const tick = new Ticker(mockCallback);
         tick.start(2000);
         tick.stop();
 
@@ -39,7 +39,7 @@ describe('test Tick', () => {
 
     it('start and pause', () => {
         const mockCallback = jest.fn();
-        const tick = new Tick(mockCallback);
+        const tick = new Ticker(mockCallback);
         tick.start(2000);
         tick.pause();
 
@@ -52,7 +52,7 @@ describe('test Tick', () => {
 
     it('start,pause,resume', () => {
         const mockCallback = jest.fn();
-        const tick = new Tick(mockCallback);
+        const tick = new Ticker(mockCallback);
         tick.start(2000);
         tick.pause();
         tick.resume();
@@ -67,7 +67,7 @@ describe('test Tick', () => {
 
     it('start,pause 1000,resume', () => {
         const mockCallback = jest.fn();
-        const tick = new Tick(mockCallback);
+        const tick = new Ticker(mockCallback);
         tick.start(2000);
         tick.pause();
         jest.advanceTimersByTime(1000);

@@ -4,8 +4,10 @@ jest.useFakeTimers('modern');
 describe('test CountdownTimer', () => {
     it('normal start', () => {
         const startCallback = jest.fn();
-        const timer = new CountdownTimer(10000, 1000, {
-            onStart: startCallback
+        const timer = new CountdownTimer(10000, 1000, event => {
+            if (event.type === 'start') {
+                startCallback();
+            }
         });
         expect(startCallback).not.toBeCalled();
         timer.start();
@@ -13,18 +15,17 @@ describe('test CountdownTimer', () => {
     });
 
     it('start tick finish', () => {
-        const tickCallback = jest.fn();
         const finishCallback = jest.fn();
-        const timer = new CountdownTimer(10000, 1000, {
-            onTick: tickCallback,
-            onFinish: finishCallback
+        const timer = new CountdownTimer(10000, 1000, event => {
+            if (event.type === 'finish') {
+                finishCallback();
+            }
         });
         timer.start();
-        expect(tickCallback).not.toBeCalled();
+        jest.advanceTimersByTime(9999);
         expect(finishCallback).not.toBeCalled();
-        jest.advanceTimersByTime(10000);
-        expect(tickCallback).toBeCalledTimes(10);
-        expect(finishCallback).toBeCalledTimes(1);
+        jest.advanceTimersByTime(1);
+        expect(finishCallback).toBeCalled();
     });
 });
 

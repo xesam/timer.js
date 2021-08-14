@@ -1,4 +1,4 @@
-const Timer = require('../src/Timer');
+const {Timer} = require('../index');
 jest.useFakeTimers('modern');
 
 function init() {
@@ -7,16 +7,16 @@ function init() {
     const resumeCallback = jest.fn();
     const stopCallback = jest.fn();
     const tickCallback = jest.fn();
-    const timer = new Timer(event => {
-        if (event === 'start') {
+    const timer = new Timer(1000, event => {
+        if (event.type === 'start') {
             startCallback();
-        } else if (event === 'stop') {
+        } else if (event.type === 'stop') {
             stopCallback();
-        } else if (event === 'pause') {
+        } else if (event.type === 'pause') {
             pauseCallback();
-        } else if (event === 'resume') {
+        } else if (event.type === 'resume') {
             resumeCallback();
-        } else if (event === 'tick') {
+        } else if (event.type === 'tick') {
             tickCallback();
         }
     });

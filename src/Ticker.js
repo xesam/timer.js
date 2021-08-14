@@ -6,7 +6,7 @@ const NOP = () => {
     console.log('tick timeout');
 };
 
-class Tick {
+class Ticker {
     constructor(onTimeout = NOP) {
         this._state = STOPPED;
         this._timerFlag = -1;
@@ -17,6 +17,10 @@ class Tick {
 
     getElapsed() {
         return Date.now();
+    }
+
+    getState() {
+        return this._state;
     }
 
     tick(timeout) {
@@ -72,4 +76,4 @@ class Tick {
     }
 }
 
-exports.Tick = Tick;
+module.exports = Ticker;
