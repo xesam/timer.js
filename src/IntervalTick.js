@@ -2,7 +2,7 @@ class IntervalTick {
     constructor(interval = 1000, handleEvent = x => x) {
         this.handleEvent = handleEvent;
         this.setInterval(interval);
-        this._ticker = this.getInitialTicker();
+        this.ticker = this.getInitialTicker();
     }
 
     getInitialTicker() {
@@ -23,25 +23,25 @@ class IntervalTick {
     }
 
     start() {
-        if (this._ticker.start(this._interval)) {
+        if (this.ticker.start(this._interval)) {
             this.onEvent({type: 'start'});
         }
     }
 
     pause() {
-        if (this._ticker.pause()) {
+        if (this.ticker.pause()) {
             this.onEvent({type: 'pause'});
         }
     }
 
     resume() {
-        if (this._ticker.resume()) {
+        if (this.ticker.resume()) {
             this.onEvent({type: 'resume'});
         }
     }
 
     stop() {
-        if (this._ticker.stop()) {
+        if (this.ticker.stop()) {
             this.onEvent({type: 'stop'});
         }
     }

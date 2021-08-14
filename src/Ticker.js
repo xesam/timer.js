@@ -2,9 +2,7 @@ const RUNNING = 'running';
 const PAUSED = 'paused';
 const STOPPED = 'stopped';
 
-const NOP = () => {
-    console.log('tick timeout');
-};
+const NOP = x => x;
 
 class Ticker {
     constructor(onTimeout = NOP) {
@@ -27,7 +25,7 @@ class Ticker {
         this._timerFlag = setTimeout(() => {
             this._state = STOPPED;
             this._flyMills += this.getElapsed() - this._runTime;
-            this._onTimeout(this._flyMills);
+            this._onTimeout(this._flyMills, this);
         }, timeout);
         return true;
     }
