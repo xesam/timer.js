@@ -1,0 +1,7 @@
+node_modules
+sitemap.json
+.idea
+*.iml
+.npmignore
+.gitignore
+test/
