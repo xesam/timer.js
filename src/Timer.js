@@ -13,7 +13,7 @@ class Timer extends IntervalTick {
             this.onEvent({type: 'tick'});
             this.onEvent('tick');
             if (keepContinue) {
-                ticker.start(this._interval);
+                ticker.start(this.getInterval());
             }
         });
     }

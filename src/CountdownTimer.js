@@ -16,7 +16,8 @@ class CountdownTimer extends IntervalTick {
             } else {
                 this.onEvent({type: 'tick', flyMills});
                 if (keepContinue) {
-                    const timeout = this._left < this._interval ? this._left : this._interval;
+                    const interval = this.getInterval();
+                    const timeout = this._left < interval ? this._left : interval;
                     ticker.start(timeout);
                 }
             }

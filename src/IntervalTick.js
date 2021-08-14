@@ -18,6 +18,10 @@ class IntervalTick {
         return this;
     }
 
+    getInterval() {
+        return this._interval;
+    }
+
     onEvent(event) {
         this.handleEvent.call(this, event);
     }
