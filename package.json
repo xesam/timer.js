@@ -1,6 +1,6 @@
 {
-  "name": "chelaile-timer",
-  "version": "0.0.2",
+  "name": "@xesam/timer",
+  "version": "0.0.1",
   "description": "simple javascript timer",
   "main": "index.js",
   "directories": {
