@@ -8,11 +8,21 @@
 
 ## Timer.js
 
+events:
+
+    start
+    pause
+    resume
+    stop
+    tick
+
+## sample
+
 ```javascript
     const timer = new Timer(1000, event => {
         console.log(event);
     });
-    timer.start();
+    timer.start(); // {type:'start'}
     timer.pause();
     timer.resume();
     timer.stop();
@@ -20,21 +30,21 @@
 
 ## CounterTimer.js
 
-```javascript
-    const timer = new CounterTimer(1000, event => {
-        console.log(event, this.getCount());
-    });
-    timer.start();
-    timer.pause();
-    timer.resume();
-    timer.stop();
-```
+events:
+
+    start
+    pause
+    resume
+    stop
+    tick
+    
+## sample
 
 ```javascript
-    const timer = new CounterTimer(1000, event => {
+    const timer = new CounterTimer(1000, function(event) {
         console.log(event, this.getCount());
-    }, 10);
-    timer.start();
+    });
+    timer.start(); // {type:'start'}
     timer.pause();
     timer.resume();
     timer.stop();
@@ -42,11 +52,22 @@
 
 ## CountdownTimer.js
 
+events:
+
+    start
+    pause
+    resume
+    stop
+    tick
+    finish
+    
+## sample
+
 ```javascript
     const timer = new CountdownTimer(10000, 1000, event => {
         console.log(event);
     });
-    timer.start();
+    timer.start(); // {type:'start'}
     timer.pause();
     timer.resume();
     timer.stop();

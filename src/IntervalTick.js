@@ -6,7 +6,7 @@ class IntervalTick {
     }
 
     getInitialTicker() {
-        return null;
+        throw new Error("no ticker");
     }
 
     onTick() {

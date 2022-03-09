@@ -11,7 +11,7 @@ describe('test CountdownTimer', () => {
         });
         expect(startCallback).not.toBeCalled();
         timer.start();
-        expect(startCallback).toBeCalled();
+        expect(startCallback).toBeCalledTimes(1);
     });
 
     it('start tick finish', () => {
@@ -24,8 +24,9 @@ describe('test CountdownTimer', () => {
         timer.start();
         jest.advanceTimersByTime(9999);
         expect(finishCallback).not.toBeCalled();
+        expect(timer.getDuration()).toEqual(10000);
         jest.advanceTimersByTime(1);
-        expect(finishCallback).toBeCalled();
+        expect(finishCallback).toBeCalledTimes(1);
     });
 });
 
