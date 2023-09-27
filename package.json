@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/xesam/js-timer#readme",
   "devDependencies": {
-    "jest": "26.1.0"
+    "jest": "29.7.0"
   }
 }
