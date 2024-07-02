@@ -18,7 +18,8 @@
 使用方法：
 
 ```javascript
-new Timer(interval, eventHandleFunction); // eventHandler 会接收到一个 event 事件
+const timer = new Timer(interval, eventHandleFunction); // eventHandler 会接收到一个 event 事件
+timer.on('tick', ()=>{})
 ```
 
 默认的 event 事件类型:
@@ -77,8 +78,8 @@ timer.start();
 
 ```javascript
 const timer = new CountdownTimer(interval, total);
-timer.on('tick', ({ flyMills }) => {
-    console.log(event.flyMills);
+timer.on('tick', ({ leftMills }) => {
+    console.log(leftMills);
 });
 timer.start();
 timer.pause();
@@ -87,7 +88,7 @@ timer.stop();
 ```
 
 相比其他的计时器，CountdownTimer 增加了 done 事件, 表示倒计时结束。
-同时，在 tick 和 done 事件中，都增加了 flyMills 属性，表示已经经过的时间。
+同时，在 tick 和 done 事件中，都增加了 leftMills 属性，表示剩余的时间。
 
 ## ChangeLog
 

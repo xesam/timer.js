@@ -10,13 +10,14 @@ class CountdownTimer extends IntervalTick {
     getInitialTicker() {
         return new Ticker((flyMills, ticker) => {
             this._left -= flyMills;
+            const leftMills = this._left;
             if (this._left <= 0) {
-                this.emit('done', { flyMills });
+                this.emit('done', { leftMills });
             } else {
-                this.emit('tick', { flyMills });
+                this.emit('tick', { leftMills });
                 if (this._keepContinue_(flyMills)) {
                     const interval = this.interval;
-                    const timeout = this._left < interval ? this._left : interval;
+                    const timeout = leftMills < interval ? leftMills : interval;
                     ticker.start(timeout);
                 }
             }
