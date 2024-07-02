@@ -1,4 +1,4 @@
-# @xesam/timer
+# Timer.js
 
 一个简单的 Javascript 计时器封装（A simple javascript Timer）；增加了一些控制方法：
 
@@ -21,7 +21,7 @@
 new Timer(interval, eventHandleFunction); // eventHandler 会接收到一个 event 事件
 ```
 
-event 事件类型:
+默认的 event 事件类型:
 
     start
     pause
@@ -29,31 +29,15 @@ event 事件类型:
     stop
     tick
 
-比如每次 tick 都会收到 `{type:'tick'}` 事件，而 start, pause, resume, stop 则会收到 `{type:'start'}, {type:'pause'}, {type:'resume'}, {type:'stop'}`的事件。
+比如每次 tick 都会收到 `tick` 事件，而 start, pause, resume, stop 则会收到 `start,pause，resume，stop`的事件。
 
 ```javascript
-const timer = new Timer(1000, (event) => {
-    console.log(event); // 每隔 1 秒种，会收到一次 event 事件
-    switch (event.type) {
-        case 'start':
-            console.log('timer start');
-            break;
-        case 'pause':
-            console.log('timer pause');
-            break;
-        case 'resume':
-            console.log('timer resume');
-            break;
-        case 'stop':
-            console.log('timer stop');
-            break;
-        case 'tick':
-            console.log('timer tick');
-            break;
-        default:
-            break;
-    }
-});
+const timer = new Timer(1000);
+timer.on('start', console.log);
+timer.on('stop', console.log);
+timer.on('pause', console.log);
+timer.on('resume', console.log);
+timer.on('tick', console.log);
 timer.start();
 timer.pause();
 timer.resume();
@@ -65,19 +49,26 @@ timer.stop();
 使用方法：
 
 ```javascript
-new Timer(interval, eventHandleFunction);
-```
-
-相比 Timer，CounterTimer 增加了 count 属性，表示计数器的值。每次 tick 都会增加 count 的值。
-
-```javascript
-const timer = new CounterTimer(1000, function (event) {
-    console.log(event, this.getCount());
+const timer = new CounterTimer(interval);
+timer.on('tick', () => {
+    console.log(timer.getCount());
 });
 timer.start();
 timer.pause();
 timer.resume();
 timer.stop();
+```
+
+相比 Timer，CounterTimer 增加了 getCount() 方法，用来获取计数器的值。每次 tick 都会增加 count 的值。
+
+可以指定最大的count值，在到达最大的 count 之后，会触发 `done` 事件：
+
+```javascript
+const timer = new CounterTimer(interval, 3);
+timer.on('done', () => {
+    console.log(timer.getCount()); // `3`
+});
+timer.start();
 ```
 
 ## 倒计时计时器（CountdownTimer）
@@ -85,20 +76,9 @@ timer.stop();
 使用方法：
 
 ```javascript
-new Timer(total, interval, eventHandleFunction);
-```
-
-相比其他的计时器，CountdownTimer 增加了 finish 事件, 表示倒计时结束。
-同时，在 tick 和 finish 事件中，都增加了 flyMills 属性，表示已经经过的时间。
-
-示例：
-
-```javascript
-const timer = new CountdownTimer(10000, 1000, (event) => {
-    console.log(event);
-    if (event.type === 'tick' || event.type === 'finish') {
-        console.log(event.flyMills);
-    }
+const timer = new CountdownTimer(interval, total);
+timer.on('tick', ({ flyMills }) => {
+    console.log(event.flyMills);
 });
 timer.start();
 timer.pause();
@@ -106,8 +86,12 @@ timer.resume();
 timer.stop();
 ```
 
+相比其他的计时器，CountdownTimer 增加了 done 事件, 表示倒计时结束。
+同时，在 tick 和 done 事件中，都增加了 flyMills 属性，表示已经经过的时间。
+
 ## ChangeLog
 
-### 0.0.3
+### 0.1.0
 
 1. 增加 EmitterTimer；
+2. 增加 on/emit 接口；

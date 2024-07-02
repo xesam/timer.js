@@ -1,7 +1,7 @@
 {
     "name": "@xesam/timer",
-    "version": "0.0.3",
-    "description": "simple javascript timer",
+    "version": "0.1.0",
+    "description": "a simple javascript timer wrapper",
     "main": "index.js",
     "directories": {
         "test": "jest"
@@ -12,23 +12,25 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xesam/js-timer.git"
+        "url": "git+https://github.com/xesam/timer.js.git"
     },
     "keywords": [
-        "timer"
+        "Timer",
+        "CounterTimer",
+        "CountDownTimer"
     ],
     "author": "xesam",
     "email": "xesamguo@gmail.com",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/xesam/js-timer/issues"
+        "url": "https://github.com/xesam/timer.js/issues"
     },
-    "homepage": "https://github.com/xesam/js-timer#readme",
+    "homepage": "https://github.com/xesam/timer.js#readme",
+    "dependencies": {
+        "mitt": "^3.0.1"
+    },
     "devDependencies": {
         "jest": "29.7.0",
         "prettier": "3.1.1"
-    },
-    "dependencies": {
-        "mitt": "^3.0.1"
     }
 }
