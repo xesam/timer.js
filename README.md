@@ -19,7 +19,12 @@
 
 ```javascript
 const timer = new Timer(interval, eventHandleFunction); // eventHandler 会接收到一个 event 事件
-timer.on('tick', ()=>{})
+timer.on('tick', () => {
+});
+timer.start();
+timer.pause();
+timer.resume();
+timer.stop();
 ```
 
 默认的 event 事件类型:
@@ -39,10 +44,6 @@ timer.on('stop', console.log);
 timer.on('pause', console.log);
 timer.on('resume', console.log);
 timer.on('tick', console.log);
-timer.start();
-timer.pause();
-timer.resume();
-timer.stop();
 ```
 
 ## 定时器（CounterTimer）
@@ -72,12 +73,27 @@ timer.on('done', () => {
 timer.start();
 ```
 
+## 元素定时发射（EmitterTimer）
+
+将数组元素定时发射出去的计时器, `tick` 参数是 {data, index}:
+
+    index : emit 元素的数组索引
+    data : index 对应的数组元素
+
+```javascript
+const timer = new EmitterTimer(1000);
+timer.on('tick', ({ data, index }) => {
+    console.log(index, data);
+});
+timer.start();
+```
+
 ## 倒计时计时器（CountdownTimer）
 
 使用方法：
 
 ```javascript
-const timer = new CountdownTimer(interval, total);
+const timer = new CountdownTimer(1000, 10000);
 timer.on('tick', ({ leftMills }) => {
     console.log(leftMills);
 });
