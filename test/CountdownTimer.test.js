@@ -14,7 +14,7 @@ describe('CountdownTimer', () => {
     it('start tick finish', () => {
         const finishCallback = jest.fn();
         const timer = new CountdownTimer(1000, 10000);
-        timer.on('finish', finishCallback);
+        timer.on('done', finishCallback);
         timer.start();
         jest.advanceTimersByTime(9999);
         expect(finishCallback).not.toBeCalled();

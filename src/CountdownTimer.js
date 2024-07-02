@@ -11,7 +11,7 @@ class CountdownTimer extends IntervalTick {
         return new Ticker((flyMills, ticker) => {
             this._left -= flyMills;
             if (this._left <= 0) {
-                this.emit('finish', { flyMills });
+                this.emit('done', { flyMills });
             } else {
                 this.emit('tick', { flyMills });
                 if (this._keepContinue_(flyMills)) {

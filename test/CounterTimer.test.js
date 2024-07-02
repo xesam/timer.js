@@ -25,6 +25,9 @@ describe('CountTimer', () => {
         timer.on('tick', () => {
             counts.push(timer.getCount());
         });
+        timer.on('done', () => {
+            counts.push('finished');
+        });
 
         timer.start();
         expect(counts).toStrictEqual([]);
@@ -33,6 +36,6 @@ describe('CountTimer', () => {
         expect(counts).toStrictEqual([1]);
 
         jest.advanceTimersByTime(9000);
-        expect(counts).toStrictEqual([1, 2, 3, 4, 5]);
+        expect(counts).toStrictEqual([1, 2, 3, 4, 5, 'finished']);
     });
 });
