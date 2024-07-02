@@ -4,20 +4,20 @@ class EmitterTimer extends Timer {
     constructor(dataSource, interval) {
         super(interval);
         this._dataSource = dataSource;
-        this._count = 0;
+        this._index = 0;
         this.on('tick', () => {
-            const index = this._count;
+            const index = this._index;
             const data = this._dataSource[index];
             this.emit('data', {
                 data,
                 index
             });
-            this._count++;
+            this._index++;
         });
     }
 
     _onTick_() {
-        return this._count < this._dataSource.length;
+        return this._index < this._dataSource.length;
     }
 }
 
