@@ -18,6 +18,7 @@
         "timer"
     ],
     "author": "xesam",
+    "email": "xesamguo@gmail.com",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/xesam/js-timer/issues"
