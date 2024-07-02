@@ -1,10 +1,10 @@
-const {CountdownTimer} = require('../index');
+const { CountdownTimer } = require('../index');
 jest.useFakeTimers('modern');
 
 describe('test CountdownTimer', () => {
     it('normal start', () => {
         const startCallback = jest.fn();
-        const timer = new CountdownTimer(10000, 1000, event => {
+        const timer = new CountdownTimer(10000, 1000, (event) => {
             if (event.type === 'start') {
                 startCallback();
             }
@@ -16,7 +16,7 @@ describe('test CountdownTimer', () => {
 
     it('start tick finish', () => {
         const finishCallback = jest.fn();
-        const timer = new CountdownTimer(10000, 1000, event => {
+        const timer = new CountdownTimer(10000, 1000, (event) => {
             if (event.type === 'finish') {
                 finishCallback();
             }
@@ -29,5 +29,3 @@ describe('test CountdownTimer', () => {
         expect(finishCallback).toBeCalledTimes(1);
     });
 });
-
-

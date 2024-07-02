@@ -1,4 +1,4 @@
-const {Ticker} = require('../index');
+const { Ticker } = require('../index');
 jest.useFakeTimers('modern');
 
 describe('test Tick', () => {
@@ -84,5 +84,3 @@ describe('test Tick', () => {
         expect(mockCallback.mock.calls[0][0]).toBe(2000);
     });
 });
-
-

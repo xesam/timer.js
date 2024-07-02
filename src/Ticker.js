@@ -2,7 +2,7 @@ const RUNNING = 'running';
 const PAUSED = 'paused';
 const STOPPED = 'stopped';
 
-const NOP = x => x;
+const NOP = (x) => x;
 
 class Ticker {
     constructor(onTimeout = NOP) {

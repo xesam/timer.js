@@ -1,28 +1,30 @@
 {
-  "name": "@xesam/timer",
-  "version": "0.0.2",
-  "description": "simple javascript timer",
-  "main": "index.js",
-  "directories": {
-    "test": "jest"
-  },
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xesam/js-timer.git"
-  },
-  "keywords": [
-    "timer"
-  ],
-  "author": "xesam",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/xesam/js-timer/issues"
-  },
-  "homepage": "https://github.com/xesam/js-timer#readme",
-  "devDependencies": {
-    "jest": "29.7.0"
-  }
+    "name": "@xesam/timer",
+    "version": "0.0.3",
+    "description": "simple javascript timer",
+    "main": "index.js",
+    "directories": {
+        "test": "jest"
+    },
+    "scripts": {
+        "test": "jest",
+        "format": "prettier --write ./src ./test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xesam/js-timer.git"
+    },
+    "keywords": [
+        "timer"
+    ],
+    "author": "xesam",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/xesam/js-timer/issues"
+    },
+    "homepage": "https://github.com/xesam/js-timer#readme",
+    "devDependencies": {
+        "jest": "29.7.0",
+        "prettier": "3.1.1"
+    }
 }
