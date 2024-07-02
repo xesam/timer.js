@@ -2,8 +2,8 @@ const IntervalTick = require('./IntervalTick');
 const Ticker = require('./Ticker');
 
 class CountdownTimer extends IntervalTick {
-    constructor(handleEvent, interval, duration) {
-        super(handleEvent, interval);
+    constructor(interval, duration) {
+        super(interval);
         this._left = this._duration = duration;
     }
 
@@ -12,9 +12,9 @@ class CountdownTimer extends IntervalTick {
             const keepContinue = this._onTick_(flyMills);
             this._left -= flyMills;
             if (this._left <= 0) {
-                this.emit({ type: 'finish', flyMills });
+                this.emit('finish', { flyMills });
             } else {
-                this.emit({ type: 'tick', flyMills });
+                this.emit('tick', { flyMills });
                 if (keepContinue) {
                     const interval = this.interval;
                     const timeout = this._left < interval ? this._left : interval;

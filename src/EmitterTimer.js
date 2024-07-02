@@ -2,26 +2,22 @@ const Timer = require('./Timer');
 
 class EmitterTimer extends Timer {
     constructor(dataSource, interval) {
-        super(
-            ({ type }) => {
-                if (type === 'tick') {
-                    const data = this._dataSource[this._count];
-                    this.onEmit(data, this._count);
-                    this._count++;
-                }
-            },
-            interval
-        );
+        super(interval);
         this._dataSource = dataSource;
         this._count = 0;
+        this.on('tick', () => {
+            const index = this._count;
+            const data = this._dataSource[index];
+            this.emit('data', {
+                data,
+                index
+            });
+            this._count++;
+        });
     }
 
     _onTick_() {
         return this._count < this._dataSource.length;
-    }
-
-    onEmit(data, index) {
-        console.log(data, index);
     }
 }
 

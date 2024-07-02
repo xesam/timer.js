@@ -7,38 +7,29 @@ function init() {
     const resumeCallback = jest.fn();
     const stopCallback = jest.fn();
     const tickCallback = jest.fn();
-    const defaultCallback = jest.fn();
-    const timer = new Timer((event) => {
-        defaultCallback();
-        if (event.type === 'start') {
-            startCallback();
-        } else if (event.type === 'stop') {
-            stopCallback();
-        } else if (event.type === 'pause') {
-            pauseCallback();
-        } else if (event.type === 'resume') {
-            resumeCallback();
-        } else if (event.type === 'tick') {
-            tickCallback();
-        }
-    }, 1000);
+
+    const timer = new Timer(1000);
+    timer.on('start', startCallback);
+    timer.on('stop', stopCallback);
+    timer.on('pause', pauseCallback);
+    timer.on('resume', resumeCallback);
+    timer.on('tick', tickCallback);
+
     return {
         timer,
         startCallback,
         pauseCallback,
         resumeCallback,
         stopCallback,
-        tickCallback,
-        defaultCallback
+        tickCallback
     };
 }
 
 describe('test Timer callback', () => {
     it('init -> start', () => {
-        const { timer, startCallback, defaultCallback } = init();
+        const { timer, startCallback } = init();
         timer.start();
         expect(startCallback).toBeCalledTimes(1);
-        expect(defaultCallback).toBeCalledTimes(1);
     });
 
     it('init -> stop', () => {
@@ -133,20 +124,17 @@ describe('test Timer callback', () => {
 
 describe('test Timer', () => {
     it('start', () => {
-        const { timer, tickCallback, defaultCallback } = init();
+        const { timer, tickCallback } = init();
         timer.start();
 
         jest.advanceTimersByTime(500);
         expect(tickCallback).toBeCalledTimes(0);
-        expect(defaultCallback).toBeCalledTimes(1);
 
         jest.advanceTimersByTime(500);
         expect(tickCallback).toBeCalledTimes(1);
-        expect(defaultCallback).toBeCalledTimes(2);
 
         jest.advanceTimersByTime(5000);
         expect(tickCallback).toBeCalledTimes(6);
-        expect(defaultCallback).toBeCalledTimes(7);
     });
 
     it('start stop', () => {
