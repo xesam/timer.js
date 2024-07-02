@@ -11,7 +11,7 @@ class Timer extends IntervalTick {
             this.emit({ type: 'tick' });
             const keepContinue = this._onTick_(flyMills);
             if (keepContinue) {
-                ticker.start(this.getInterval());
+                ticker.start(this.interval);
             }
         });
     }

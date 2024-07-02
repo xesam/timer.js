@@ -1,21 +1,16 @@
 class IntervalTick {
     constructor(handleEvent = (x) => x, interval = 1000) {
         this._eventHandle = handleEvent;
+        this._interval = interval;
         this._ticker = this.getInitialTicker();
-        this.setInterval(interval);
+    }
+
+    get interval() {
+        return this._interval;
     }
 
     getInitialTicker() {
         throw new Error('no ticker');
-    }
-
-    setInterval(interval) {
-        this._interval = interval;
-        return this;
-    }
-
-    getInterval() {
-        return this._interval;
     }
 
     _onTick_() {
