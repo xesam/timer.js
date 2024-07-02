@@ -15,7 +15,7 @@ class IntervalTick {
         throw new Error('no ticker');
     }
 
-    _onTick_() {
+    _keepContinue_() {
         return true;
     }
 

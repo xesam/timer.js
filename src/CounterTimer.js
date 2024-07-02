@@ -10,7 +10,7 @@ class CounterTimer extends Timer {
         });
     }
 
-    _onTick_() {
+    _keepContinue_() {
         return this._count < this._maxCount;
     }
 

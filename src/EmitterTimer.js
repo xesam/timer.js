@@ -16,7 +16,7 @@ class EmitterTimer extends Timer {
         });
     }
 
-    _onTick_() {
+    _keepContinue_() {
         return this._index < this._dataSource.length;
     }
 }
