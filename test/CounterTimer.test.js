@@ -1,7 +1,7 @@
 const { CounterTimer } = require('../index');
 jest.useFakeTimers('modern');
 
-describe('test CountdownTimer', () => {
+describe('CountTimer', () => {
     it('normal counter', () => {
         const timer = new CounterTimer(1000);
         expect(timer.getCount()).toBe(0);
@@ -13,7 +13,7 @@ describe('test CountdownTimer', () => {
     });
 
     it('counter with maxCount', () => {
-        const timer = new CounterTimer(1000, (x) => x, 5);
+        const timer = new CounterTimer(1000, 5);
         expect(timer.getCount()).toBe(0);
         timer.start();
         jest.advanceTimersByTime(1000);

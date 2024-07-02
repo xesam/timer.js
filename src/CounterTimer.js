@@ -1,15 +1,18 @@
 const Timer = require('./Timer');
 
 class CounterTimer extends Timer {
-    constructor(interval, handleEvent, maxCount = Number.MAX_VALUE) {
-        super(interval, handleEvent);
+    constructor(interval, maxCount = Number.MAX_VALUE) {
+        super(({ type }) => {
+            if (type === 'tick') {
+                this._count++;
+            }
+        }, interval);
         this._count = 0;
-        this.maxCount = maxCount;
+        this._maxCount = maxCount;
     }
 
     onTick() {
-        this._count++;
-        return this._count < this.maxCount;
+        return this._count < this._maxCount;
     }
 
     getCount() {

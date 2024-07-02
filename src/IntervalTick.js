@@ -1,16 +1,12 @@
 class IntervalTick {
-    constructor(interval = 1000, handleEvent = (x) => x) {
-        this.handleEvent = handleEvent;
+    constructor(handleEvent = (x) => x, interval = 1000) {
+        this._eventHandle = handleEvent;
+        this._ticker = this.getInitialTicker();
         this.setInterval(interval);
-        this.ticker = this.getInitialTicker();
     }
 
     getInitialTicker() {
         throw new Error('no ticker');
-    }
-
-    onTick() {
-        return true;
     }
 
     setInterval(interval) {
@@ -22,31 +18,35 @@ class IntervalTick {
         return this._interval;
     }
 
-    onEvent(event) {
-        this.handleEvent.call(this, event);
+    onTick() {
+        return true;
+    }
+
+    emitEvent(event) {
+        this._eventHandle.call(this, event);
     }
 
     start() {
-        if (this.ticker.start(this._interval)) {
-            this.onEvent({ type: 'start' });
+        if (this._ticker.start(this._interval)) {
+            this.emitEvent({ type: 'start' });
         }
     }
 
     pause() {
-        if (this.ticker.pause()) {
-            this.onEvent({ type: 'pause' });
+        if (this._ticker.pause()) {
+            this.emitEvent({ type: 'pause' });
         }
     }
 
     resume() {
-        if (this.ticker.resume()) {
-            this.onEvent({ type: 'resume' });
+        if (this._ticker.resume()) {
+            this.emitEvent({ type: 'resume' });
         }
     }
 
     stop() {
-        if (this.ticker.stop()) {
-            this.onEvent({ type: 'stop' });
+        if (this._ticker.stop()) {
+            this.emitEvent({ type: 'stop' });
         }
     }
 }

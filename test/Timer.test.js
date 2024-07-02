@@ -8,7 +8,7 @@ function init() {
     const stopCallback = jest.fn();
     const tickCallback = jest.fn();
     const defaultCallback = jest.fn();
-    const timer = new Timer(1000, (event) => {
+    const timer = new Timer((event) => {
         defaultCallback();
         if (event.type === 'start') {
             startCallback();
@@ -21,8 +21,7 @@ function init() {
         } else if (event.type === 'tick') {
             tickCallback();
         }
-    });
-    timer.setInterval(1000);
+    }, 1000);
     return {
         timer,
         startCallback,
