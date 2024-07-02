@@ -11,7 +11,7 @@ class CounterTimer extends Timer {
         this._maxCount = maxCount;
     }
 
-    onTick() {
+    _onTick_() {
         return this._count < this._maxCount;
     }
 

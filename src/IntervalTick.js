@@ -18,35 +18,35 @@ class IntervalTick {
         return this._interval;
     }
 
-    onTick() {
+    _onTick_() {
         return true;
     }
 
-    emitEvent(event) {
+    emit(event) {
         this._eventHandle.call(this, event);
     }
 
     start() {
         if (this._ticker.start(this._interval)) {
-            this.emitEvent({ type: 'start' });
+            this.emit({ type: 'start' });
         }
     }
 
     pause() {
         if (this._ticker.pause()) {
-            this.emitEvent({ type: 'pause' });
+            this.emit({ type: 'pause' });
         }
     }
 
     resume() {
         if (this._ticker.resume()) {
-            this.emitEvent({ type: 'resume' });
+            this.emit({ type: 'resume' });
         }
     }
 
     stop() {
         if (this._ticker.stop()) {
-            this.emitEvent({ type: 'stop' });
+            this.emit({ type: 'stop' });
         }
     }
 }
