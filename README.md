@@ -110,4 +110,4 @@ timer.stop();
 
 ### 0.0.3
 
-1. 增加 TimerEmitter；
+1. 增加 EmitterTimer；

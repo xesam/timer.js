@@ -1,6 +1,6 @@
 const Timer = require('./Timer');
 
-class TimerEmitter extends Timer {
+class EmitterTimer extends Timer {
     constructor(dataSource, interval) {
         super(
             ({ type }) => {
@@ -10,11 +10,14 @@ class TimerEmitter extends Timer {
                     this._count++;
                 }
             },
-            interval,
-            dataSource.length
+            interval
         );
         this._dataSource = dataSource;
         this._count = 0;
+    }
+
+    _onTick_() {
+        return this._count < this._dataSource.length;
     }
 
     onEmit(data, index) {
@@ -22,4 +25,4 @@ class TimerEmitter extends Timer {
     }
 }
 
-module.exports = TimerEmitter;
+module.exports = EmitterTimer;
