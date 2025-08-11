@@ -1,6 +1,6 @@
 {
     "name": "@xesam/timer",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "a simple javascript timer wrapper",
     "main": "index.js",
     "directories": {
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xesam/timer.js.git"
+        "url": "git+https://github.com/xesam/js-timer.git"
     },
     "keywords": [
         "Timer",
@@ -23,9 +23,9 @@
     "email": "xesamguo@gmail.com",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/xesam/timer.js/issues"
+        "url": "https://github.com/xesam/js-timer/issues"
     },
-    "homepage": "https://github.com/xesam/timer.js#readme",
+    "homepage": "https://github.com/xesam/js-timer#readme",
     "dependencies": {
         "mitt": "^3.0.1"
     },

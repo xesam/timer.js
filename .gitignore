@@ -3,3 +3,4 @@ dist
 .vscode
 .idea
 *.iml
+pnpm-lock.yaml
