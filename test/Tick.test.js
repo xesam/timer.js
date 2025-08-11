@@ -7,14 +7,14 @@ describe('test Tick', () => {
         const tick = new Ticker(mockCallback);
 
         tick.start(2000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
 
         jest.advanceTimersByTime(1500);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
 
         jest.advanceTimersByTime(500);
 
-        expect(mockCallback).toBeCalledTimes(1);
+        expect(mockCallback).toHaveBeenCalledTimes(1);
         expect(mockCallback.mock.calls[0][0]).toBe(2000);
 
         jest.advanceTimersByTime(2000);
@@ -31,10 +31,10 @@ describe('test Tick', () => {
         tick.stop();
 
         jest.advanceTimersByTime(2000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
 
         jest.advanceTimersByTime(200000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
     });
 
     it('start and pause', () => {
@@ -44,10 +44,10 @@ describe('test Tick', () => {
         tick.pause();
 
         jest.advanceTimersByTime(2000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
 
         jest.advanceTimersByTime(200000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
     });
 
     it('start,pause,resume', () => {
@@ -58,10 +58,10 @@ describe('test Tick', () => {
         tick.resume();
 
         jest.advanceTimersByTime(2000);
-        expect(mockCallback).toBeCalled();
+        expect(mockCallback).toHaveBeenCalled();
 
         jest.advanceTimersByTime(200000);
-        expect(mockCallback).toBeCalledTimes(1);
+        expect(mockCallback).toHaveBeenCalledTimes(1);
         expect(mockCallback.mock.calls[0][0]).toBe(2000);
     });
 
@@ -74,13 +74,13 @@ describe('test Tick', () => {
         tick.resume();
 
         jest.advanceTimersByTime(1000);
-        expect(mockCallback).not.toBeCalled();
+        expect(mockCallback).not.toHaveBeenCalled();
 
         jest.advanceTimersByTime(1000);
-        expect(mockCallback).toBeCalled();
+        expect(mockCallback).toHaveBeenCalled();
 
         jest.advanceTimersByTime(200000);
-        expect(mockCallback).toBeCalledTimes(1);
+        expect(mockCallback).toHaveBeenCalledTimes(1);
         expect(mockCallback.mock.calls[0][0]).toBe(2000);
     });
 });

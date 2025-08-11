@@ -29,73 +29,73 @@ describe('test Timer callback', () => {
     it('init -> start', () => {
         const { timer, startCallback } = init();
         timer.start();
-        expect(startCallback).toBeCalledTimes(1);
+        expect(startCallback).toHaveBeenCalledTimes(1);
     });
 
     it('init -> stop', () => {
         const { timer, stopCallback } = init();
         timer.stop();
-        expect(stopCallback).not.toBeCalled();
+        expect(stopCallback).not.toHaveBeenCalled();
     });
 
     it('init -> pause', () => {
         const { timer, pauseCallback } = init();
         timer.pause();
-        expect(pauseCallback).not.toBeCalled();
+        expect(pauseCallback).not.toHaveBeenCalled();
     });
 
     it('init -> resume', () => {
         const { timer, resumeCallback } = init();
         timer.resume();
-        expect(resumeCallback).not.toBeCalled();
+        expect(resumeCallback).not.toHaveBeenCalled();
     });
 
     it('init -> start -> start', () => {
         const { timer, startCallback } = init();
         timer.start();
         timer.start();
-        expect(startCallback).toBeCalledTimes(1);
+        expect(startCallback).toHaveBeenCalledTimes(1);
     });
 
     it('init -> start -> stop', () => {
         const { timer, stopCallback } = init();
 
         timer.start();
-        expect(stopCallback).not.toBeCalled();
+        expect(stopCallback).not.toHaveBeenCalled();
 
         timer.stop();
-        expect(stopCallback).toBeCalledTimes(1);
+        expect(stopCallback).toHaveBeenCalledTimes(1);
     });
 
     it('init -> start -> pause', () => {
         const { timer, pauseCallback } = init();
 
         timer.start();
-        expect(pauseCallback).not.toBeCalled();
+        expect(pauseCallback).not.toHaveBeenCalled();
 
         timer.pause();
-        expect(pauseCallback).toBeCalledTimes(1);
+        expect(pauseCallback).toHaveBeenCalledTimes(1);
     });
 
     it('init -> start -> resume', () => {
         const { timer, resumeCallback } = init();
 
         timer.start();
-        expect(resumeCallback).not.toBeCalled();
+        expect(resumeCallback).not.toHaveBeenCalled();
 
         timer.resume();
-        expect(resumeCallback).not.toBeCalled();
+        expect(resumeCallback).not.toHaveBeenCalled();
     });
 
     it('init -> start -> stop -> stop', () => {
         const { timer, stopCallback } = init();
 
         timer.start();
-        expect(stopCallback).not.toBeCalled();
+        expect(stopCallback).not.toHaveBeenCalled();
 
         timer.stop();
         timer.stop();
-        expect(stopCallback).toBeCalledTimes(1);
+        expect(stopCallback).toHaveBeenCalledTimes(1);
     });
 
     it('init -> start -> stop -> start', () => {
@@ -104,21 +104,21 @@ describe('test Timer callback', () => {
         timer.start();
         timer.stop();
         timer.start();
-        expect(startCallback).toBeCalledTimes(2);
+        expect(startCallback).toHaveBeenCalledTimes(2);
     });
 
     it('init -> start -> pause -> resume', () => {
         const { timer, pauseCallback, resumeCallback } = init();
 
         timer.start();
-        expect(pauseCallback).not.toBeCalled();
-        expect(resumeCallback).not.toBeCalled();
+        expect(pauseCallback).not.toHaveBeenCalled();
+        expect(resumeCallback).not.toHaveBeenCalled();
 
         timer.pause();
-        expect(pauseCallback).toBeCalledTimes(1);
+        expect(pauseCallback).toHaveBeenCalledTimes(1);
 
         timer.resume();
-        expect(resumeCallback).toBeCalledTimes(1);
+        expect(resumeCallback).toHaveBeenCalledTimes(1);
     });
 });
 
@@ -128,13 +128,13 @@ describe('test Timer', () => {
         timer.start();
 
         jest.advanceTimersByTime(500);
-        expect(tickCallback).toBeCalledTimes(0);
+        expect(tickCallback).toHaveBeenCalledTimes(0);
 
         jest.advanceTimersByTime(500);
-        expect(tickCallback).toBeCalledTimes(1);
+        expect(tickCallback).toHaveBeenCalledTimes(1);
 
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(6);
+        expect(tickCallback).toHaveBeenCalledTimes(6);
     });
 
     it('start stop', () => {
@@ -143,7 +143,7 @@ describe('test Timer', () => {
         timer.stop();
 
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(0);
+        expect(tickCallback).toHaveBeenCalledTimes(0);
     });
 
     it('start pause', () => {
@@ -151,7 +151,7 @@ describe('test Timer', () => {
         timer.start();
         timer.pause();
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(0);
+        expect(tickCallback).toHaveBeenCalledTimes(0);
     });
 
     it('start pause resume', () => {
@@ -160,7 +160,7 @@ describe('test Timer', () => {
         timer.pause();
         timer.resume();
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(5);
+        expect(tickCallback).toHaveBeenCalledTimes(5);
     });
 
     it('start pause resume pause', () => {
@@ -170,7 +170,7 @@ describe('test Timer', () => {
         timer.resume();
         timer.pause();
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(0);
+        expect(tickCallback).toHaveBeenCalledTimes(0);
     });
 
     it('start pause resume stop', () => {
@@ -180,6 +180,6 @@ describe('test Timer', () => {
         timer.resume();
         timer.stop();
         jest.advanceTimersByTime(5000);
-        expect(tickCallback).toBeCalledTimes(0);
+        expect(tickCallback).toHaveBeenCalledTimes(0);
     });
 });

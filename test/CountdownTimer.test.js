@@ -7,10 +7,10 @@ describe('CountdownTimer', () => {
         const timer = new CountdownTimer(1000, 10000);
         timer.on('start', startCallback);
 
-        expect(startCallback).not.toBeCalled();
+        expect(startCallback).not.toHaveBeenCalled();
 
         timer.start();
-        expect(startCallback).toBeCalledTimes(1);
+        expect(startCallback).toHaveBeenCalledTimes(1);
     });
 
     it('normal tick', () => {
@@ -33,10 +33,10 @@ describe('CountdownTimer', () => {
 
         timer.start();
         jest.advanceTimersByTime(9999);
-        expect(finishCallback).not.toBeCalled();
+        expect(finishCallback).not.toHaveBeenCalled();
         expect(timer.getDuration()).toEqual(10000);
 
         jest.advanceTimersByTime(1);
-        expect(finishCallback).toBeCalledTimes(1);
+        expect(finishCallback).toHaveBeenCalledTimes(1);
     });
 });

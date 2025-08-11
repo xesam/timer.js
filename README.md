@@ -1,6 +1,6 @@
-# Timer.js
+# A simple Javascript Timer
 
-一个简单的 Javascript 计时器封装（A simple javascript Timer）；增加了一些控制方法：
+一个简单的 Javascript 计时器封装；增加了一些控制方法：
 
     start(timeout) // 开启计时器
     pause() // 暂停计时器
