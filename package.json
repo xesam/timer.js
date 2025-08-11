@@ -2,14 +2,14 @@
   "name": "@xesam/timer",
   "version": "0.1.1",
   "description": "a simple javascript timer",
-  "main": "dist/cjs/index.js",
+  "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/index.js"
     }
   },
   "directories": {
@@ -46,6 +46,9 @@
   },
   "homepage": "https://github.com/xesam/js-timer#readme",
   "dependencies": {
+    "mitt": "^3.0.1"
+  },
+  "peerDependencies": {
     "mitt": "^3.0.1"
   },
   "devDependencies": {

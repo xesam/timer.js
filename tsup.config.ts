@@ -1,31 +1,14 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig([
-  // 构建CJS
-  {
-    entry: ['src/**/*.ts'],
-    format: ['cjs'],
-    outDir: 'dist/cjs',
-    splitting: false,
-    sourcemap: true,
-    clean: true,
-    bundle: false,
-    outExtension() {
-      return { js: '.js' }
-    },
-    esbuildOptions(options) {
-      options.outbase = 'src'
-      options.platform = 'node'
-    }
-  },
-  // 构建ESM
+  // 构建ESM - 保持文件结构
   {
     entry: ['src/**/*.ts'],
     format: ['esm'],
     outDir: 'dist/esm',
     splitting: false,
     sourcemap: true,
-    clean: false, // 不清理，让CJS构建清理
+    clean: false,
     bundle: false,
     outExtension() {
       return { js: '.js' }
@@ -35,7 +18,7 @@ export default defineConfig([
       options.platform = 'neutral'
     }
   },
-  // 构建类型定义
+  // 构建类型定义 - 输出到 dist/types 目录
   {
     entry: ['src/**/*.ts'],
     format: ['cjs'],
@@ -52,6 +35,24 @@ export default defineConfig([
     },
     esbuildOptions(options) {
       options.outbase = 'src'
+    }
+  },
+  // 构建微信小程序兼容的CJS - 打包模式
+  {
+    entry: ['src/index.ts'],
+    format: ['cjs'],
+    outDir: 'dist',
+    splitting: false,
+    sourcemap: true,
+    clean: false,
+    bundle: true,
+    shims: true,
+    outExtension() {
+      return { js: '.js' }
+    },
+    esbuildOptions(options) {
+      options.outbase = 'src'
+      options.platform = 'neutral'
     }
   }
 ])
