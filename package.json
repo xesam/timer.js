@@ -1,45 +1,61 @@
 {
-    "name": "@xesam/timer",
-    "version": "0.1.1",
-    "description": "a simple javascript timer wrapper",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "directories": {
-        "test": "jest"
-    },
-    "scripts": {
-    "build": "tsc",
-    "test": "jest",
-    "format": "prettier --write ./src ./test",
-    "dev": "tsc --watch",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build"
-  },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/xesam/js-timer.git"
-    },
-    "keywords": [
-        "Timer",
-        "CounterTimer",
-        "CountDownTimer"
-    ],
-    "author": "xesam",
-    "email": "xesamguo@gmail.com",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/xesam/js-timer/issues"
-    },
-    "homepage": "https://github.com/xesam/js-timer#readme",
-    "dependencies": {
-        "mitt": "^3.0.1"
-    },
-    "devDependencies": {
-        "@types/jest": "^30.0.0",
-        "@types/node": "^24.2.1",
-        "jest": "^30.0.5",
-        "prettier": "^3.6.2",
-        "ts-jest": "^29.4.1",
-        "typescript": "^5.9.2"
+  "name": "@xesam/timer",
+  "version": "0.1.1",
+  "description": "a simple javascript timer wrapper",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     }
+  },
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "format": "prettier --write ./src ./test",
+    "prepublishOnly": "npm run clean && npm run build",
+    "build": "pnpm clean & tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xesam/js-timer.git"
+  },
+  "keywords": [
+    "Timer",
+    "CounterTimer",
+    "CountDownTimer"
+  ],
+  "author": "xesam",
+  "email": "xesamguo@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xesam/js-timer/issues"
+  },
+  "homepage": "https://github.com/xesam/js-timer#readme",
+  "dependencies": {
+    "mitt": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.2.1",
+    "jest": "^30.0.5",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.1",
+    "typescript": "^5.9.2",
+    "rimraf": "latest",
+    "tsup": "^8.5.0"
+  }
 }

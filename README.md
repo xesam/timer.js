@@ -146,7 +146,7 @@ emitterTimer.start();
 
 ## ChangeLog
 
-### 0.2.0
+### 0.1.1
 1. 完全迁移到 TypeScript
 2. 添加完整的类型定义
 3. 保持 API 向后兼容
