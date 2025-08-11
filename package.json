@@ -1,7 +1,7 @@
 {
   "name": "@xesam/timer",
   "version": "0.1.1",
-  "description": "a simple javascript timer wrapper",
+  "description": "a simple javascript timer",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",

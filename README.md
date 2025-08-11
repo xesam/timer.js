@@ -18,7 +18,7 @@
 使用方法：
 
 ```javascript
-const timer = new Timer(interval, eventHandleFunction); // eventHandler 会接收到一个 event 事件
+const timer = new Timer(interval); 
 timer.on('tick', () => {
 });
 timer.start();
