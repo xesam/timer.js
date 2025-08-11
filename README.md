@@ -1,6 +1,6 @@
-# A simple Javascript Timer
+# A simple TypeScript/JavaScript Timer
 
-一个简单的 Javascript 计时器封装；增加了一些控制方法：
+一个简单的 TypeScript/JavaScript 计时器封装；增加了一些控制方法：
 
     start(timeout) // 开启计时器
     pause() // 暂停计时器
@@ -106,9 +106,51 @@ timer.stop();
 相比其他的计时器，CountdownTimer 增加了 done 事件, 表示倒计时结束。
 同时，在 tick 和 done 事件中，都增加了 leftMills 属性，表示剩余的时间。
 
+## TypeScript 支持
+
+本项目已完全迁移到 TypeScript，提供完整的类型定义和 IntelliSense 支持。
+
+### TypeScript 使用示例
+
+```typescript
+import { Timer, CountdownTimer, CounterTimer, EmitterTimer } from '@xesam/timer';
+
+// Timer
+const timer = new Timer(1000);
+timer.on('tick', () => {
+    console.log('tick');
+});
+timer.start();
+
+// CountdownTimer
+const countdownTimer = new CountdownTimer(1000, 5000);
+countdownTimer.on('tick', ({ leftMills }) => {
+    console.log(`剩余时间: ${leftMills}ms`);
+});
+countdownTimer.start();
+
+// CounterTimer
+const counterTimer = new CounterTimer(1000, 5);
+counterTimer.on('tick', () => {
+    console.log(`计数: ${counterTimer.getCount()}`);
+});
+counterTimer.start();
+
+// EmitterTimer
+const emitterTimer = new EmitterTimer<string>(['hello', 'world', 'test'], 1000);
+emitterTimer.on('data', ({ data, index }) => {
+    console.log(`[${index}]: ${data}`);
+});
+emitterTimer.start();
+```
+
 ## ChangeLog
 
-### 0.1.0
+### 0.2.0
+1. 完全迁移到 TypeScript
+2. 添加完整的类型定义
+3. 保持 API 向后兼容
 
+### 0.1.0
 1. 增加 EmitterTimer；
 2. 增加 on/emit 接口；

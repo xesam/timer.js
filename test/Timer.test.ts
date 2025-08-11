@@ -1,5 +1,6 @@
-const { Timer } = require('../index');
-jest.useFakeTimers('modern');
+import { Timer } from '../src/Timer';
+
+jest.useFakeTimers();
 
 function init() {
     const startCallback = jest.fn();

@@ -1,10 +1,11 @@
-const { CountdownTimer } = require('../index');
-jest.useFakeTimers('modern');
+import { CounterTimer } from '../src/CounterTimer';
 
-describe('CountdownTimer', () => {
+jest.useFakeTimers();
+
+describe('CounterTimer', () => {
     it('normal start', () => {
         const startCallback = jest.fn();
-        const timer = new CountdownTimer(1000, 10000);
+        const timer = new CounterTimer(1000, 3);
         timer.on('start', startCallback);
 
         expect(startCallback).not.toHaveBeenCalled();
@@ -15,28 +16,30 @@ describe('CountdownTimer', () => {
 
     it('normal tick', () => {
         const tickCallback = jest.fn();
-        const timer = new CountdownTimer(1000, 10000);
+        const timer = new CounterTimer(1000, 3);
         timer.on('tick', tickCallback);
 
         timer.start();
         jest.advanceTimersByTime(1200);
-        expect(tickCallback.mock.calls[0][0]).toStrictEqual({ leftMills: 9000 });
+        expect(tickCallback).toHaveBeenCalledTimes(1);
+        expect(timer.getCount()).toEqual(1);
 
         jest.advanceTimersByTime(1200);
-        expect(tickCallback.mock.calls[1][0]).toStrictEqual({ leftMills: 8000 });
+        expect(tickCallback).toHaveBeenCalledTimes(2);
+        expect(timer.getCount()).toEqual(2);
     });
 
     it('start tick finish', () => {
         const finishCallback = jest.fn();
-        const timer = new CountdownTimer(1000, 10000);
+        const timer = new CounterTimer(1000, 3);
         timer.on('done', finishCallback);
 
         timer.start();
-        jest.advanceTimersByTime(9999);
+        jest.advanceTimersByTime(2999);
         expect(finishCallback).not.toHaveBeenCalled();
-        expect(timer.getDuration()).toEqual(10000);
 
         jest.advanceTimersByTime(1);
         expect(finishCallback).toHaveBeenCalledTimes(1);
+        expect(timer.getCount()).toEqual(3);
     });
 });

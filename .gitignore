@@ -4,3 +4,4 @@ dist
 .idea
 *.iml
 pnpm-lock.yaml
+yarn.lock
