@@ -5,3 +5,4 @@ dist
 *.iml
 pnpm-lock.yaml
 yarn.lock
+*.tmp.md
