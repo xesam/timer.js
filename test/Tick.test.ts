@@ -1,11 +1,24 @@
 import { Ticker } from '../src/Ticker';
+import { TimeSource } from '../src/TimerTypes';
 
 jest.useFakeTimers();
+
+class FakeTimeSource implements TimeSource {
+    private value = 0;
+
+    now(): number {
+        return this.value;
+    }
+
+    advance(ms: number): void {
+        this.value += ms;
+    }
+}
 
 describe('test Ticker', () => {
     it('init state', () => {
         const ticker = new Ticker();
-        expect(ticker.getState()).toBe('stopped');
+        expect(ticker.getState()).toBe('idle');
     });
 
     it('start', () => {
@@ -31,7 +44,7 @@ describe('test Ticker', () => {
         const ticker = new Ticker();
         ticker.start(1000);
         expect(ticker.stop()).toBe(true);
-        expect(ticker.getState()).toBe('stopped');
+        expect(ticker.getState()).toBe('idle');
     });
 
     it('start pause resume', () => {
@@ -47,7 +60,7 @@ describe('test Ticker', () => {
         ticker.start(1000);
         ticker.pause();
         expect(ticker.stop()).toBe(true);
-        expect(ticker.getState()).toBe('stopped');
+        expect(ticker.getState()).toBe('idle');
     });
 
     it('pause without start', () => {
@@ -58,6 +71,25 @@ describe('test Ticker', () => {
     it('resume without pause', () => {
         const ticker = new Ticker();
         expect(ticker.resume()).toBe(false);
+    });
+
+    it('resume schedules only the remaining milliseconds', () => {
+        const time = new FakeTimeSource();
+        const callback = jest.fn();
+        const ticker = new Ticker(callback, time);
+
+        ticker.start(1000);
+        time.advance(250);
+        ticker.pause();
+        ticker.resume();
+
+        time.advance(749);
+        jest.advanceTimersByTime(749);
+        expect(callback).not.toHaveBeenCalled();
+
+        time.advance(1);
+        jest.advanceTimersByTime(1);
+        expect(callback).toHaveBeenCalledWith(1000, ticker);
     });
 
     it('stop without start', () => {

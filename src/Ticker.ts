@@ -1,47 +1,68 @@
-const RUNNING = 'running' as const;
-const PAUSED = 'paused' as const;
-const STOPPED = 'stopped' as const;
+import { SystemTimeSource, TimeSource, TimerState } from './TimerTypes';
 
-type TickerState = typeof RUNNING | typeof PAUSED | typeof STOPPED;
+const RUNNING: TimerState = 'running';
+const PAUSED: TimerState = 'paused';
+const IDLE: TimerState = 'idle';
 
-const NOP = (x: number, ticker: Ticker): number => x;
+const NOP = (_flyMills: number, _ticker: Ticker): void => undefined;
 
 export class Ticker {
-    private _state: TickerState = STOPPED;
-    private _timerFlag: NodeJS.Timeout | number = -1;
-    private _flyMills: number = 0;
-    private _timeoutMills: number = 0;
-    private _runTime: number = 0;
-    private _pauseTime: number = 0;
-    private _onTimeout: (flyMills: number, ticker: Ticker) => void;
+    private _state: TimerState = IDLE;
+    private _timerFlag: ReturnType<typeof setTimeout> | null = null;
+    private _timeoutMills = 0;
+    private _elapsedInSegment = 0;
+    private _runTime = 0;
+    private _isDispatching = false;
 
-    constructor(onTimeout: (flyMills: number, ticker: Ticker) => void = NOP) {
-        this._onTimeout = onTimeout;
-    }
+    constructor(
+        private readonly _onTimeout: (flyMills: number, ticker: Ticker) => void = NOP,
+        private readonly _timeSource: TimeSource = new SystemTimeSource()
+    ) {}
 
     getElapsed(): number {
-        return Date.now();
+        return this._timeSource.now();
     }
 
-    getState(): TickerState {
+    getState(): TimerState {
         return this._state;
+    }
+
+    getSegmentElapsed(): number {
+        if (this._state === RUNNING) {
+            return this._elapsedInSegment + (this.getElapsed() - this._runTime);
+        }
+        return this._elapsedInSegment;
+    }
+
+    private clearTimer(): void {
+        if (this._timerFlag) {
+            clearTimeout(this._timerFlag);
+            this._timerFlag = null;
+        }
     }
 
     tick(timeout: number): boolean {
         this._timerFlag = setTimeout(() => {
-            this._state = STOPPED;
-            this._flyMills += this.getElapsed() - this._runTime;
-            this._onTimeout(this._flyMills, this);
+            const flyMills = this._elapsedInSegment + (this.getElapsed() - this._runTime);
+            this._timerFlag = null;
+            this._elapsedInSegment = 0;
+            this._state = IDLE;
+            this._isDispatching = true;
+            try {
+                this._onTimeout(flyMills, this);
+            } finally {
+                this._isDispatching = false;
+            }
         }, timeout);
         return true;
     }
 
     start(timeout: number = 0): boolean {
-        if (this._state !== STOPPED) {
+        if (this._state !== IDLE) {
             return false;
         }
         this._timeoutMills = timeout;
-        this._flyMills = 0;
+        this._elapsedInSegment = 0;
         this._runTime = this.getElapsed();
         this._state = RUNNING;
         this.tick(this._timeoutMills);
@@ -49,13 +70,16 @@ export class Ticker {
     }
 
     pause(): boolean {
+        if (this._state === IDLE && this._isDispatching) {
+            this._state = PAUSED;
+            return true;
+        }
         if (this._state !== RUNNING) {
             return false;
         }
+        this.clearTimer();
+        this._elapsedInSegment += this.getElapsed() - this._runTime;
         this._state = PAUSED;
-        clearTimeout(this._timerFlag as NodeJS.Timeout);
-        this._pauseTime = this.getElapsed();
-        this._flyMills += this._pauseTime - this._runTime;
         return true;
     }
 
@@ -63,19 +87,30 @@ export class Ticker {
         if (this._state !== PAUSED) {
             return false;
         }
+        const remaining = Math.max(this._timeoutMills - this._elapsedInSegment, 0);
         this._runTime = this.getElapsed();
         this._state = RUNNING;
-        this.tick(this._timeoutMills - this._flyMills);
+        this.tick(remaining);
         return true;
     }
 
     stop(): boolean {
-        if (this._state === STOPPED) {
+        if (this._state === IDLE && !this._isDispatching) {
             return false;
         }
-        this._state = STOPPED;
-        clearTimeout(this._timerFlag as NodeJS.Timeout);
-        this._flyMills += this.getElapsed() - this._runTime;
+        if (this._state === RUNNING) {
+            this._elapsedInSegment += this.getElapsed() - this._runTime;
+        }
+        this.clearTimer();
+        this._state = IDLE;
         return true;
+    }
+
+    reset(): void {
+        this.clearTimer();
+        this._timeoutMills = 0;
+        this._elapsedInSegment = 0;
+        this._runTime = 0;
+        this._state = IDLE;
     }
 }

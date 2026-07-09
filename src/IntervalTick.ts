@@ -8,7 +8,6 @@ type IntervalTickEvents = {
     resume?: void;
     tick?: any;
     done?: any;
-    data?: any;
 };
 
 export abstract class IntervalTick {

@@ -1,6 +1,28 @@
 import { Timer } from '../src/Timer';
+import { IntervalTick } from '../src/IntervalTick';
 
 jest.useFakeTimers();
+
+class ResetAwareTimer extends Timer {
+    derived = 0;
+
+    markDerived(value: number): void {
+        this.derived = value;
+    }
+
+    protected _reset_(): void {
+        this.derived = 0;
+    }
+}
+
+class CountingTickerTimer extends Timer {
+    static initializationCount = 0;
+
+    protected getInitialTicker() {
+        CountingTickerTimer.initializationCount += 1;
+        return super.getInitialTicker();
+    }
+}
 
 function init() {
     const startCallback = jest.fn();
@@ -124,6 +146,22 @@ describe('test Timer callback', () => {
 });
 
 describe('test Timer', () => {
+    it('initializes an overridden ticker only once during construction', () => {
+        CountingTickerTimer.initializationCount = 0;
+
+        const timer = new CountingTickerTimer(1000);
+
+        expect(timer).toBeInstanceOf(CountingTickerTimer);
+        expect(CountingTickerTimer.initializationCount).toBe(1);
+    });
+
+    it('remains assignable to the IntervalTick public shape', () => {
+        const asIntervalTick = (timer: IntervalTick): IntervalTick => timer;
+        const timer = new Timer(1000);
+
+        expect(asIntervalTick(timer)).toBe(timer);
+    });
+
     it('start', () => {
         const { timer, tickCallback } = init();
         timer.start();
@@ -133,6 +171,7 @@ describe('test Timer', () => {
 
         jest.advanceTimersByTime(500);
         expect(tickCallback).toHaveBeenCalledTimes(1);
+        expect(tickCallback).toHaveBeenLastCalledWith({ elapsed: 1000, delta: 1000 });
 
         jest.advanceTimersByTime(5000);
         expect(tickCallback).toHaveBeenCalledTimes(6);
@@ -182,5 +221,83 @@ describe('test Timer', () => {
         timer.stop();
         jest.advanceTimersByTime(5000);
         expect(tickCallback).toHaveBeenCalledTimes(0);
+    });
+
+    it('stop inside a tick listener prevents rescheduling', () => {
+        const timer = new Timer(1000);
+        const tickCallback = jest.fn(() => {
+            timer.stop();
+        });
+        const stopCallback = jest.fn();
+        const doneCallback = jest.fn();
+
+        timer.on('tick', tickCallback);
+        timer.on('stop', stopCallback);
+        timer.on('done', doneCallback);
+
+        timer.start();
+        jest.advanceTimersByTime(1000);
+
+        expect(tickCallback).toHaveBeenCalledTimes(1);
+        expect(stopCallback).toHaveBeenCalledTimes(1);
+        expect(doneCallback).toHaveBeenCalledTimes(0);
+        expect(timer.state).toBe('idle');
+
+        jest.advanceTimersByTime(3000);
+        expect(tickCallback).toHaveBeenCalledTimes(1);
+    });
+
+    it('pause inside a tick listener prevents rescheduling until resume', () => {
+        const timer = new Timer(1000);
+        const tickCallback = jest.fn(() => {
+            if (tickCallback.mock.calls.length === 1) {
+                timer.pause();
+            }
+        });
+        const pauseCallback = jest.fn();
+        const doneCallback = jest.fn();
+
+        timer.on('tick', tickCallback);
+        timer.on('pause', pauseCallback);
+        timer.on('done', doneCallback);
+
+        timer.start();
+        jest.advanceTimersByTime(1000);
+
+        expect(tickCallback).toHaveBeenCalledTimes(1);
+        expect(pauseCallback).toHaveBeenCalledTimes(1);
+        expect(doneCallback).toHaveBeenCalledTimes(0);
+        expect(timer.state).toBe('paused');
+
+        jest.advanceTimersByTime(3000);
+        expect(tickCallback).toHaveBeenCalledTimes(1);
+
+        timer.resume();
+        jest.advanceTimersByTime(1000);
+        expect(tickCallback).toHaveBeenCalledTimes(2);
+    });
+
+    it('reset clears elapsed time and returns to idle', () => {
+        const { timer } = init();
+        const resetCallback = jest.fn();
+        timer.on('reset', resetCallback);
+
+        timer.start();
+        jest.advanceTimersByTime(1000);
+        timer.reset();
+
+        expect(resetCallback).toHaveBeenCalledTimes(1);
+        expect(timer.elapsed).toBe(0);
+        expect(timer.state).toBe('idle');
+    });
+
+    it('reset calls the subclass reset hook', () => {
+        const timer = new ResetAwareTimer(1000);
+        timer.markDerived(7);
+
+        timer.reset();
+
+        expect(timer.derived).toBe(0);
+        expect(timer.state).toBe('idle');
     });
 });

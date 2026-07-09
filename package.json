@@ -1,7 +1,7 @@
 {
   "name": "@xesam/timer",
-  "version": "0.1.1",
-  "description": "a simple javascript timer",
+  "version": "1.0.0",
+  "description": "cross-platform compensated timer primitives for browser, Node.js, and Mini Program runtimes",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -17,12 +17,13 @@
     "test": "test"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "format": "prettier --write ./src ./test",
     "prepublishOnly": "npm run clean && npm run build",
-    "build": "pnpm clean & tsup",
+    "build": "npm run clean && tsup",
     "dev": "tsup --watch",
     "clean": "rimraf dist",
     "test": "jest",
@@ -34,9 +35,11 @@
     "url": "git+https://github.com/xesam/js-timer.git"
   },
   "keywords": [
-    "Timer",
-    "CounterTimer",
-    "CountDownTimer"
+    "timer",
+    "countdown",
+    "miniprogram",
+    "compensation",
+    "pause-resume"
   ],
   "author": "xesam",
   "email": "xesamguo@gmail.com",
@@ -46,9 +49,6 @@
   },
   "homepage": "https://github.com/xesam/js-timer#readme",
   "dependencies": {
-    "mitt": "^3.0.1"
-  },
-  "peerDependencies": {
     "mitt": "^3.0.1"
   },
   "devDependencies": {
