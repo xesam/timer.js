@@ -1,16 +1,20 @@
 {
   "name": "@xesam/timer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "cross-platform compensated timer primitives for browser, Node.js, and Mini Program runtimes",
-  "main": "dist/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/cjs/index.js"
     }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
   },
   "directories": {
     "src": "src",
@@ -22,9 +26,9 @@
   ],
   "scripts": {
     "format": "prettier --write ./src ./test",
-    "prepublishOnly": "npm run clean && npm run build",
-    "build": "npm run clean && tsup",
-    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build",
+    "build": "rimraf dist && tsdown",
+    "dev": "tsdown --watch",
     "clean": "rimraf dist",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -56,9 +60,9 @@
     "@types/node": "^24.2.1",
     "jest": "^30.0.5",
     "prettier": "^3.6.2",
-    "ts-jest": "^29.4.1",
-    "typescript": "^5.9.2",
     "rimraf": "latest",
-    "tsup": "^8.5.0"
+    "ts-jest": "^29.4.1",
+    "tsdown": "^0.22.7",
+    "typescript": "^5.9.2"
   }
 }
